@@ -1,0 +1,80 @@
+                                      REACT
+/TodoItems.js:/
+
+
+import React from "react";
+import "./TodoList.css";
+
+function TodoItem({ todo, deleteTodo }) {
+  return (
+    <li className="task-item">
+      {todo.text}{" "}
+      <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+    </li>
+  );
+}
+
+export default TodoItem;
+
+
+
+/TododList:/
+
+import React, { useState } from "react";
+import TodoItem from "./TodoItem";
+import "./TodoList.css";
+
+function TodoList() {
+  const [todos, setTodos] = useState([]);
+  const [task, setTask] = useState("");
+
+  const addTodo = () => {
+    if (task) {
+      setTodos([...todos, { text: task, id: Date.now() }]);
+      setTask("");
+    }
+  };
+
+  const deleteTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  return (
+    <div className="todo-list">
+      <h1>My To-Do List</h1>
+      <input
+        className="task-input"
+        type="text"
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+        placeholder="Add a task..."
+      />
+      <button className="task-button" onClick={addTodo}>
+        Add
+      </button>
+      <ul className="task-list">
+        {todos.map((todo) => (
+          <TodoItem key={todo.id} todo={todo} deleteTodo={deleteTodo} />
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default TodoList;
+
+/App.js:/
+
+import React from "react";
+import "./App.css";
+import TodoList from "./TodoList";
+
+function App() {
+  return (
+    <div className="App">
+      <TodoList />
+    </div>
+  );
+}
+
+export default App;
