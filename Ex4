@@ -1,0 +1,518 @@
+                            ANGULAR
+
+
+/app.component.ts:/
+
+
+import { Component } from '@angular/core';
+import { HomeComponent } from './home/home.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [
+    HomeComponent,
+    RouterLink,
+    RouterOutlet,
+  ],
+  template: `
+    <main>
+      <a [routerLink]="['/']">
+        <header class="brand-name">
+         Home Kitchen
+        </header>
+      </a>
+      <section class="content">
+        <router-outlet></router-outlet>
+      </section>
+    </main>
+  `,
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent {
+  title = 'Home Kitchen';
+}
+
+
+/app.component.css:/
+
+:host {
+  --content-padding: 10px;
+}
+header {
+  display: block;
+  height: 60px;
+  padding: var(--content-padding);
+  box-shadow: 0px 5px 25px var(--shadow-color);
+}
+.content {
+  padding: var(--content-padding);
+}
+
+.brand-name{
+  font-size: 30pt;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: rgb(37, 10, 88);
+}
+
+housing.service.ts
+import { Injectable } from '@angular/core';
+import { HousingLocation } from './housinglocation';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class HousingService {
+  readonly baseUrl = 'https://angular.io/assets/images/tutorials/faa';
+
+  protected housingLocationList: HousingLocation[] = [
+    {
+      id: 0,
+      name: 'Idly',
+      city: 'Veg',
+      state: 'South Indian',
+      photo: `https://geekrobocook.com/wp-content/uploads/2021/03/30_Idly.jpg`,
+      avgcost: 30,
+      timings: '8:00 AM to 11:30 PM',
+      wifi: true,
+    },
+    {
+      id: 1,
+      name: 'Idly Vada',
+      city: 'Veg',
+      state: 'South Indian',
+      photo: `https://static.vecteezy.com/system/resources/previews/015/933/273/large_2x/idli-vada-sambhar-also-known-as-idly-medu-wada-and-sambar-free-photo.jpg`,
+      avgcost: 40,
+      timings: '8:00 AM to 11:30 PM',
+      wifi: true,
+    },
+    {
+      id: 2,
+      name: 'Dosa',
+      city: 'Veg',
+      state: 'South Indian',
+      photo: `https://www.pngitem.com/pimgs/m/333-3335621_dosa-masala-dosa-hd-png-download.png`,
+      avgcost: 40,
+      timings: '8:00 AM to 11:30 PM',
+      wifi: true,
+    },
+    {
+      id: 3,
+      name: 'Chicken Dosa',
+      city: 'Non-Veg',
+      state: 'South Indian',
+      photo: `https://www.archanaskitchen.com/images/archanaskitchen/1-Author/sneha-archanaskitchen.com/Chicken_Keema_Dosa__.jpg`,
+      avgcost: 70,
+      timings: '8:00 AM to 11:30 PM',
+      wifi: true,
+    },
+    {
+      id: 4,
+      name: 'Chapathi',
+      city: 'Veg',
+      state: 'North Indian',
+      photo: `https://www.foodbymom.in/cdn/shop/products/2.png?v=16799870801`,
+      avgcost: 35,
+      timings: '8:00 AM to 11:30 PM',
+      wifi: true,
+    },
+    {
+      id: 5,
+      name: 'Naan',
+      city: 'Veg',
+      state: 'North Indian',
+      photo: `https://www.pngplay.com/wp-content/uploads/13/Naan-Transparent-File.png`,
+      avgcost: 40,
+      timings: '8:00 AM to 11:30 PM',
+      wifi: false,
+    },
+    {
+      id: 6,
+      name: 'Chole poori',
+      city: 'Veg',
+      state: 'North Indian',
+      photo: 'https://t4.ftcdn.net/jpg/05/53/98/37/360_F_553983713_fPQArPANoKopj2Tm4621eYAA1SXy48qt.jpg',
+      avgcost: 60,
+      timings: '8:00 AM to 11:30 PM',
+      wifi: true,
+    },
+    {
+      id: 7,
+      name: 'Onion Rava',
+      city: 'Veg',
+      state: 'South Indian',
+      photo: `https://www.ticklingpalates.com/wp-content/uploads/2013/11/Onion-Rava-Dosa-Recipe.jpg`,
+      avgcost: 70 ,
+      timings: '8:00 AM to 11:30 PM',
+      wifi: true,
+    },
+    {
+      id: 8,
+      name: 'Idiyappam',
+      city: 'Veg',
+      state: 'South Indian',
+      photo: `https://www.sandyathome.com/wp-content/uploads/2016/08/file3-25.jpeg`,
+      avgcost: 50,
+      timings: '8:00 AM to 11:30 PM',
+      wifi: true,
+    },
+    {
+      id: 9,
+      name: 'Parotta',
+      city: 'Veg',
+      state: 'South Indian',
+      photo: `https://images.moneycontrol.com/static-mcnews/2021/04/paratha_shutterstock_1641709639.jpg?impolicy=website&width=770&height=431`,
+      avgcost: 40,
+      timings: '8:00 AM to 11:30 PM',
+      wifi: true,
+    }
+  ];
+
+  getAllHousingLocations(): HousingLocation[] {
+    return this.housingLocationList;
+  }
+
+  getHousingLocationById(id: number): HousingLocation | undefined {
+    return this.housingLocationList.find(housingLocation => housingLocation.id === id);
+  }
+
+  submitApplication(firstName: string, lastName: string, email: string) {
+    console.log(`Homes application received: firstName: ${firstName}, lastName: ${lastName}, email: ${email}.`);
+  }
+
+housinglocation.ts
+export interface HousingLocation {
+  id: number;
+  name: string;
+  city: string;
+  state: string;
+  photo: string;
+  avgcost: number;
+  timings: string;
+  wifi: boolean;
+}
+
+/routes.ts:/
+
+
+import { Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { DetailsComponent } from './details/details.component';
+
+const routeConfig: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+    title: 'Home page',
+  },
+  {
+    path: 'details/:id',
+    component: DetailsComponent,
+    title: 'Food Details',
+  },
+];
+
+export default routeConfig;
+
+                                              COMPONENTS
+DETAILS
+/details.component.ts:/
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { HousingService } from '../housing.service';
+import { HousingLocation } from '../housinglocation';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-details',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
+  template: `
+    <article>
+      <img class="listing-photo" [src]="housingLocation?.photo"
+        alt="Exterior photo of {{housingLocation?.name}}"/>
+      <section class="listing-description">
+        <h2 class="listing-heading">{{housingLocation?.name}}</h2>
+        <p class="listing-location">{{housingLocation?.city}}, {{housingLocation?.state}}</p>
+      </section>
+      
+      <section class="listing-features">
+        <h2 class="section-heading">About this Food Item</h2>
+        <ul>
+          <li>Cost: {{housingLocation?.avgcost}}$</li>
+          <li>Available timings: {{housingLocation?.timings}}</li>
+          <li>Side Dish: {{housingLocation?.wifi}}</li>
+        </ul>
+      </section>
+
+      <section class="listing-apply">
+        <h2 class="section-heading">Enter Details to order</h2>
+        <form [formGroup]="applyForm" (submit)="submitApplication()">
+          <label for="first-name">Number of Plates</label>
+          <input id="first-name" type="text" formControlName="firstName">
+
+          <label for="last-name">Side dish</label>
+          <input id="last-name" type="text" formControlName="lastName">
+
+          <label for="email">Any Specific preparation MEthod</label>
+          <input id="email" type="email" formControlName="email">
+          <button type="submit" class="primary">Order now</button>
+        </form>
+      </section>
+    </article>
+  `,
+  styleUrls: ['./details.component.css'],
+})
+export class DetailsComponent {
+  route: ActivatedRoute = inject(ActivatedRoute);
+  housingService = inject(HousingService);
+  housingLocation: HousingLocation | undefined;
+  applyForm = new FormGroup({
+    firstName: new FormControl(''),
+    lastName: new FormControl(''),
+    email: new FormControl(''),
+  });
+
+  constructor() {
+    const housingLocationId = parseInt(this.route.snapshot.params['id'], 10);
+    this.housingLocation =
+      this.housingService.getHousingLocationById(housingLocationId);
+  }
+
+  submitApplication() {
+    this.housingService.submitApplication(
+      this.applyForm.value.firstName ?? '',
+      this.applyForm.value.lastName ?? '',
+      this.applyForm.value.email ?? ''
+    );
+  }
+}
+
+details.component.css
+.listing-photo {
+  height: 600px;
+  width: 50%;
+  object-fit: cover;
+  border-radius: 30px;
+  float: right;
+}
+.listing-heading {
+  font-size: 48pt;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: black;
+}
+.listing-location::before {
+  content: url('/assets/location-pin.svg') / '';
+}
+
+.listing-location {
+  font-size: 24pt;
+  margin-bottom: 15px;
+  color: black;
+}
+.listing-features > .section-heading {
+  color: var(--secondary-color);
+  font-size: 24pt;
+  margin-bottom: 15px;
+  color: black;
+}
+.listing-features {
+  margin-bottom: 20px;
+}
+.listing-features li {
+  font-size: 14pt;
+  color: black;
+}
+li {
+  list-style-type: none;
+}
+.listing-apply .section-heading {
+  font-size: 18pt;
+  margin-bottom: 15px;
+  color: black;
+}
+label,
+input {
+  display: block;
+}
+label {
+  color: black;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 12pt;
+}
+input {
+  font-size: 16pt;
+  margin-bottom: 15px;
+  padding: 10px;
+  width: 400px;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: solid 0.3px;
+}
+@media (max-width: 1024px) {
+  .listing-photo {
+    width: 100%;
+    height: 400px;
+  }
+}
+
+                  HOME
+
+/home.component.ts:/
+
+
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HousingLocationComponent } from '../housing-location/housing-location.component';
+import { HousingLocation } from '../housinglocation';
+import { HousingService } from '../housing.service';
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [
+    CommonModule,
+    HousingLocationComponent
+  ],
+  template: `
+    <section>
+      <form>
+        <input type="text" placeholder="Filter by Veg/Non-Veg" #filter>
+        <button class="primary" type="button" (click)="filterResults(filter.value)">Search</button>
+      </form>
+    </section>
+    
+    <section class="results">
+      <app-housing-location
+        *ngFor="let housingLocation of filteredLocationList"
+        [housingLocation]="housingLocation">
+      </app-housing-location>
+    </section>
+  `,
+  styleUrls: ['./home.component.css'],
+})
+
+export class HomeComponent {
+  housingLocationList: HousingLocation[] = [];
+  housingService: HousingService = inject(HousingService);
+  filteredLocationList: HousingLocation[] = [];
+  constructor() {
+    this.housingLocationList = this.housingService.getAllHousingLocations();
+    this.filteredLocationList = this.housingLocationList;
+  }
+  filterResults(text: string) {
+    if (!text) {
+      this.filteredLocationList = this.housingLocationList;
+    }
+
+    this.filteredLocationList = this.housingLocationList.filter(
+      housingLocation => housingLocation?.city.toLowerCase().includes(text.toLowerCase())
+    );
+  }
+}
+
+home.component.css
+.results {
+  display: grid;
+  column-gap: 14px;
+  row-gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 400px));
+  margin-top: 50px;
+  justify-content: space-around;
+}
+input[type="text"] {
+  border: solid 1px var(--primary-color);
+  padding: 10px;
+  border-radius: 8px;
+  margin-right: 4px;
+  display: inline-block;
+  width: 30%;
+}
+button {
+  padding: 10px;
+  border: solid 1px var(--primary-color);
+  background: var(--primary-color);
+  color: white;
+  border-radius: 8px;
+}
+@media (min-width: 500px) and (max-width: 768px) {
+  .results {
+      grid-template-columns: repeat(2, 1fr);
+  }
+  input[type="text"] {
+      width: 70%;
+  }   
+}
+@media (max-width: 499px) {
+  .results {
+      grid-template-columns: 1fr;
+  }    
+}
+
+                 HOUSING LOCATION
+
+
+/housing-location.component.ts:/
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HousingLocation } from '../housinglocation';
+import { RouterModule } from '@angular/router';
+
+@Component({
+  selector: 'app-housing-location',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
+  template: `
+    <section class="listing">
+      <img class="listing-photo" [src]="housingLocation.photo" alt="Exterior photo of {{housingLocation.name}}">
+      <h2 class="listing-heading">{{ housingLocation.name }}</h2>
+      <p class="listing-location">{{ housingLocation.city}}, {{housingLocation.state }}</p>
+      <a [routerLink]="['/details', housingLocation.id]">Learn More</a>
+    </section>
+  `,
+  styleUrls: ['./housing-location.component.css'],
+})
+export class HousingLocationComponent {
+  @Input() housingLocation!: HousingLocation;
+}
+
+housing-location.component.css
+.listing {
+  background: var(--accent-color);
+  border-radius: 30px;
+  padding-bottom: 30px;
+}
+.listing-heading {
+  color: var(--primary-color);
+  padding: 10px 20px 0 20px;
+}
+.listing-photo {
+  height: 250px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 30px 30px 0 0;
+}
+.listing-location {
+  padding: 10px 20px 20px 20px;
+}
+.listing-location::before {
+  content: url("/assets/location-pin.svg") / "";
+}
+section.listing a {
+  padding-left: 20px;
+  text-decoration: none;
+  color: var(--primary-color);
+}
+section.listing a::after {
+  content: "\203A";
+  margin-left: 5px;
+}
