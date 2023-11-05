@@ -1,0 +1,59 @@
+<html>
+
+<head>
+<title>CV</title>
+</head>
+
+<body style=" background-image: url(pic.jpg);">
+<h2>Contact</h2>
+<p><b>Email id:</b>thejaswinivenkatesan@gmail.com</p>
+<p><b>Mobile no :</b>1234567890</p>
+<h2>Skills</h2>
+<ul>
+<li><b>Programming Languages :
+Python, Java</b></li>
+<li><b>Frontend : HTML5, CSS</b></li>
+<li><b>Backend : MongoDB</b></li>
+</ul>
+<h2>Language</h2>
+<ul>
+<li>English</li>
+<li>Hindi</li>
+<li>Tamil</li>
+</ul>
+<h2>Hobbies</h2>
+<ul>
+<li>Reading Books</li>
+<li>Listening Music</li>
+</ul>
+<h2>Education</h2>
+<table>
+<tr>
+<th>UNiversity</th>
+<th>Status</th>
+<th>CGPA</th>
+</tr>
+<tr>
+<td>Shiv Nadar Uiversity</td>
+<td>Pursuing</td>
+<td>8</td>
+</tr>
+<tr>
+<td>AISSCE</td>
+<td>2021</td>
+<td>96%</td>
+</tr>
+</table>
+<ul>
+<li>
+<h2>Project1</h2>
+<p>A an application for cloud kitchen</p>
+</li>
+<li>
+<h2>Internship</h2>
+<p>Interned at TANGEDGO for grid development</p>
+</li>
+</ul>
+</body>
+
+</html>
