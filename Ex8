@@ -1,0 +1,121 @@
+/app.js:/
+
+const express = require('express')
+const mongoose = require('mongoose')
+const app = express();
+app.use(express.json())
+mongoose.connect('mongodb://127.0.0.1:27017/Restapi',
+{ 
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then( ()=> {
+    console.log("Mongodb Connected")
+})
+const ProductRoute = require('./Routes/product.route')
+app.use('/products', ProductRoute);
+app.use( (req, res, next) => {
+    const err = new Error("Not Found")
+    err.status = 404
+    next(err)
+})
+app.use( (err, req, res, next) => {
+    res.status(err.status || 500)
+    res.send({
+        error: {
+        status: err.status || 500,
+        message: err.message
+        }
+    })
+})
+app.listen(3000, () => {
+    console.log("Server started on port 3000")})
+product.model.js
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema;
+const ProductSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    price: {
+        type: Number,
+        required: true
+    }
+});
+const Product = mongoose.model('product', ProductSchema);
+module.exports = Product;
+
+/product.route.js:/
+
+const express = require("express")
+const router = express.Router()
+const Product = require('../Models/product.model')
+router.get('/', async (req, res, next) => {
+    try {
+        const results = await Product.find({}, {__v: 0})
+        res.send(results)
+    } catch (error) {
+        console.log(error.message)
+    }
+
+})
+router.post('/', async (req,res, next) => {
+    try {
+        const product = new Product(req.body);
+        const result = await product.save();
+        res.send(result);
+    } catch (error) {
+        console.log(error.message);
+    }
+})
+router.get('/:id', async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        const product = await Product.findById(id)
+        res.send(product)
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+router.patch('/:id', async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        const updates = req.body;
+        const result = await Product.findByIdAndUpdate(id, updates, {new: true})
+        res.send(result)
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+router.delete('/:id', async (req, res, next) => {
+    const id = req.params.id
+    try {
+        const result = await Product.findByIdAndDelete(id)
+        res.send(result)
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+module.exports = router;
+
+/rest.http:/
+
+### Create a product
+POST http://localhost:3000/products
+Content-Type: application/json
+{
+    "name" : "iPhone 14",
+    "price" : 1999
+}
+### Get a product by id
+GET http://localhost:3000/products/654394c2b3c269aab6bc6a48
+### Update a product by id
+PATCH http://localhost:3000/products/654394c6b3c269aab6bc6a4c
+Content-Type: application/json
+{
+  "price": 1199
+}
+### Delete a product by id
+DELETE http://localhost:3000/products/654394a4b3c269aab6bc6a45
+### Get all products
+GET http://localhost:3000/products
